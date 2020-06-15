@@ -73,13 +73,14 @@
                         width="300">
                     <template slot-scope="scope">
                         <el-button
-                                @click = "handleDelete(scope.$index, scope.row)"
+                                @click = "open(scope.$index, scope.row)"
                                 type="danger"
                                 size = "small">
                             删除</el-button>
                         <el-button
                                 type="warning"
-                                size ="small">
+                                size ="small"
+                                @click="checkPatient(scope.$index, scope.row)">
                             编辑</el-button>
                     </template>
                 </el-table-column>
@@ -144,26 +145,51 @@
 <script>
     export default {
         name:"Main",
+        created(){
+            this.axios.get("http://127.0.0.1:8000/main?doctor_id=" + sessionStorage.getItem("doctor_id") )
+                .then(res =>{
+                    console.log(res.data),
+                        console.log(sessionStorage.getItem('doctor_id'))
+                    this.table = res.data
+                })
+        },
         methods: {
-           
             handleDelete(index,row){
+                console.log(row)
+                console.log('patient_id 是', row['patient_id'])
+                console.log(row)
                 this.axios.get("http://127.0.0.1:8000/delete?patient_id=" + row.patient_id)
                     .then(res =>{
                         console.log(res)
                         this.refresh()
                     })
+                console.log(index,row)
+
+            },
+            checkPatient(index, row){
+                sessionStorage.removeItem('patient_id', row.patient_id)
+                sessionStorage.setItem('patient_id', row.patient_id);
+                sessionStorage.setItem('patient_name', row.patient_name);
+                sessionStorage.setItem('patient_sex', row.patient_sex);
+                sessionStorage.setItem('patient_age', row.patient_age);
+                sessionStorage.setItem('patient_date', row.patient_date);
+                sessionStorage.setItem('patient_nation', row.patient_nation);
+                sessionStorage.setItem('patient_address', row.patient_address);
+                sessionStorage.setItem('patient_job', row.patient_job);
+                sessionStorage.setItem('patient_allergy', row.patient_allergy);
+                console.log("bingrenshi :" + sessionStorage.getItem('patient_name'))
+                this.$router.push('patient')
             },
             refresh(){
-                this.axios.get("http://127.0.0.1:8000/refresh?doctor_id=" + sessionStorage.getItem("doctor_id") )
+                this.axios.get("http://127.0.0.1:8000/main?doctor_id=" + sessionStorage.getItem("doctor_id") )
                     .then(res =>{
                         console.log(res.data),
-                        console.log(sessionStorage.getItem('doctor_id'))
                         this.table = res.data
                     })
             },
             add_patient(){
                 this.form['doc_id'] = sessionStorage.getItem('doctor_id')
-                this.axios.post("http://127.0.0.1:8000/addPatient/" ,this.form,{
+                this.axios.post(this.mainurl ,this.form,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
@@ -179,17 +205,28 @@
             },
             cancel(){
                 this.form={brand_right:0}
+            },
+            open(index,row) {
+                this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    this.handleDelete(index,row)
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消删除'
+                    });
+                });
             }
         },
-        created () { //删除行数
 
-            this.axios.get("http://127.0.0.1:8000/main?doctor_name=" + sessionStorage.getItem("user_name") )
-                .then(res =>{
-                    console.log(res.data[0].patient_id)
-                })
-            console.log(sessionStorage.getItem("tel"))
-
-        },
         data() {
 
             return {
@@ -226,7 +263,7 @@
 </script>
 <style>
     .el-header, .el-footer {
-        background-color: #ecb409;
+        background-color: #09ec91;
         color: #333;
         text-align: center;
         line-height: 50px;

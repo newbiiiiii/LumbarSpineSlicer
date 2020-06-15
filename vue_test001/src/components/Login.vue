@@ -46,21 +46,28 @@
 
 </template>
 <script>
-    import { Toast } from 'mint-ui';
+    //import { Toast } from 'mint-ui';
+    //import { MessageBox } from 'element-ui';
     export default {
         name :"Login",
+        //单页面中不支持前面的data:{}方式
         data() {
+
+            //相当于以前的function data(){},这是es5之前的写法，新版本可以省略掉function
             return{
                 user:{
                     username:'',
                     password:'',
+                    //为了登录方便，可以直接在这里写好用户名和密码的值
                 },
                 imgs: ["../assets/hhh.jpg","../assets/hhh.jpg"]
+                //item["sss",'sss','dd','dd']
             }
         },
 
         methods:{
-            doLogin(){
+            doLogin(){//一点击登录按钮，这个方法就会执行
+
                 this.axios.get('http://127.0.0.1:8000/login?username=' + this.user.username + '&pwd='
                         + this.user.password).then(res => {
                     if(res.data.code === '0000'){
@@ -72,29 +79,23 @@
                         sessionStorage.setItem('job', res.data.doctor_job);
                         sessionStorage.setItem('doctor_id', res.data.doctor_id);
                         console.log("登陆成功")
-                        this.$router.push({ name : 'main' });
-                        Toast({
-                            message: '登陆成功',
-                            position: 'bottom',
-                            duration: 2000
-                        });
-                        console.log("toast")
+                        this.$router.push('main');
+                        this.$message({
+                            type: 'success',
+                            message: '登陆成功'
+                        })
                         sessionStorage.setItem('token', 'true');
 
                     } else {
-                        console.log("failtoast")
-                        Toast({
-                            message: '登陆失败',
-                            position: 'bottom',
-                            duration: 2000
+                        this.$message({
+                            type: 'info',
+                            message: '账号密码错误.'
                         });
-                        console.log("failtoast")
                     }
                 }).catch(error => {
-                    Toast({
-                        message: '网络异常',
-                        position: 'bottom',
-                        duration: 2000
+                    this.$message({
+                        type: 'info',
+                        message: '网络异常.'
                     });
                     // eslint-disable-next-line no-console
                     console.log(error);
@@ -107,7 +108,10 @@
                 console.log("xxx")
             },
 
+
+
         },
+
 
     }
 </script>

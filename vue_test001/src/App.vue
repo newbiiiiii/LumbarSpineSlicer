@@ -24,11 +24,10 @@ export default {
   //     Login,
   //     //HelloWorld
   // }
-    watch:{
-        '$route'(){
-
-        }
-    },
+  //   watch:{
+  //       '$route'(){
+  //       }
+  //   },
 }
 </script>
 

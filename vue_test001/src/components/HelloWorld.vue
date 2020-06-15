@@ -76,7 +76,8 @@
       },
       regist(){
         console.log("xxx")
-      }
+      },
+
     }
   }
 </script>
