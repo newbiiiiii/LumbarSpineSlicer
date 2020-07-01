@@ -56,6 +56,7 @@ class RecordInfo(models.Model):
     record_date = models.DateField(blank=True, null=True)
     record_slicer_file = models.CharField(max_length=255, blank=True, null=True)
     record_condition = models.CharField(max_length=255, blank=True, null=True)
+    record_sliced_files = models.CharField(max_length=255, blank=True, null=True)
     record_opinion = models.CharField(max_length=255, blank=True, null=True)
     r_p = models.OneToOneField(to="PatientInfo",on_delete=models.CASCADE)
     class Meta:

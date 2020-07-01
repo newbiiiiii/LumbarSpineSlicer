@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-<!--    <Login msg="Welcome to Your Vue.js App"/>-->
-<!--      <router-view/>-->
       <keep-alive exclude="needExcludeComponentName">
 
       </keep-alive>
@@ -16,10 +13,12 @@
 <script>
  //import Login from './components/Login.vue'
  //import Login from './components/Login.vue'
-
+ import imagvue from 'imagvue'
 export default {
   name: 'App',
-  // components: {
+   components: {
+      imagvue
+
   //     // eslint-disable-next-line vue/no-unused-components
   //     Login,
   //     //HelloWorld
@@ -27,7 +26,7 @@ export default {
   //   watch:{
   //       '$route'(){
   //       }
-  //   },
+     },
 }
 </script>
 

@@ -7,10 +7,14 @@ import VueAxios from 'vue-axios'
 import router from './config/router'
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
+import imagvue from 'imagvue'
 
+
+Vue.use(imagvue)
 Vue.use(Mint);
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
+
 Vue.prototype.$axios = axios
 // Vue.prototype.$toast = Toast
 Vue.config.productionTip = false
@@ -21,5 +25,5 @@ new Vue({
 
 }).$mount('#app')
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000'
+axios.defaults.baseURL = 'http://211.87.234.165:8888'
 axios.defaults.timeout = 1000000

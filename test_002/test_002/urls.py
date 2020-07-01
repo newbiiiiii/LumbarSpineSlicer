@@ -16,14 +16,32 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from demo import views as views
+from . import settings
+from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path("api/", include("demo.urls")),
-    path("test/", views.test),
+    #path("test/", views.test),
     path("login/", views.login),
-    path("main/", views.showdata),
-    path("delete/", views.delete)
+    path("refresh/", views.refresh),
+    path("delete/", views.delete),
+    path("record/", views.record),
+    path("add_patient/", views.add_patient),
+    path("postfile/", views.postFile),
+    path("temporaryfile/", views.temporaryFile),
+    path("opinion/", views.opinion),
+    path("read_img/",views.read_img),
+    #path("readsplitimg/",views.readSplitImg),
 
-    #path('add/<int:a>/<int:b>/',  views.add, name ='add'),
+    path("segmentation/",views.segmentation),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("models/",views.models),
+    path("taosuo/",views.taosuo),
+    path("dealed/",views.dealed),
+    path("regist/",views.regist)
+
+
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
